@@ -1,8 +1,18 @@
 import './App.css';
-
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Home from './pages/Home'
+import Starred from './pages/Starred'
+import MainLayout from './component/MainLayout';
 function App() {
   return (
-   <h1>hello</h1>
+   <BrowserRouter>
+   <Routes>
+    <Route element={<MainLayout/>}>
+    <Route path='/home' element={<Home/>}/>
+    <Route path='/starred' element={<Starred/>} />
+    </Route>
+   </Routes>
+   </BrowserRouter>
   );
 }
 
