@@ -1,19 +1,25 @@
 import {useState} from 'react';
-import {searchForShows} from '../api/tvMaze';
+import {searchForShows, searchForPeople} from '../api/tvMaze';
+import SearchForm from '../component/SearchForm';
 function Home() {
-    const [searchStr, setSearchStr] = useState("");
-    const [apiData, setApiData] = useState(null);
+ 
     const [apiDataError, setApiDataError] = useState(null);
+    const [apiData, setApiData] = useState(null);
 
-    const onSearchInputChange = (ev) => {
-        setSearchStr(ev.target.value);
-    }
 
-    const onSearch = async (ev) => {
-        ev.preventDefault();
-        setApiDataError(null);
+
+    const onSearch = async ({q, searchOption}) => {
         try{
-            const result = await searchForShows(searchStr);
+            setApiDataError(null);
+
+            let result;
+            if(searchOption === 'shows'){
+                result = await searchForShows(q);
+                
+            }else{
+                result = await searchForPeople(q);
+                
+            }
             setApiData(result);
         }catch(error){
             setApiDataError(error);
@@ -26,8 +32,10 @@ function Home() {
             return <div>{apiDataError.message}</div>
         }
         if(apiData){
-            return apiData.map((data) => (
+            return apiData[0].show ? apiData.map((data) => (
                 <div key={data.show.id}>{data.show.name}</div>
+            )) : apiData.map((data) => (
+                <div key={data.person.id}>{data.person.name}</div>
             ))
         }
         return null;
@@ -35,14 +43,12 @@ function Home() {
 
   return (
     <div>
-        <form onSubmit={onSearch}>
-            <input type="text" name="searchInput" value ={searchStr.searchInput} onChange={onSearchInputChange}/>
-            <button type="submit">Search</button>
-        </form>
-      <div>
+        <SearchForm onSearch={onSearch}/>
+         <div>
         {renderApiData()}
       </div>
     </div>
+
   )
 }
 
