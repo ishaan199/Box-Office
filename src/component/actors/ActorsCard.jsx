@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function ActorsCard({name,image, birthday, gender, country, deathday}) {
+function ActorsCard({name,image, birthday, gender, country, deathday, id}) {
   return (
     <div>
         <div>
@@ -11,7 +11,7 @@ function ActorsCard({name,image, birthday, gender, country, deathday}) {
         {!!birthday && <p>Born {birthday}</p>}
         <p>{deathday ? `Died on ${deathday}` : "Alive"}</p>
         <div>
-            <Link to='/'>read me</Link>
+            <Link to={`/actor/${id}`}>read me</Link>
         </div>
     </div>
   )
