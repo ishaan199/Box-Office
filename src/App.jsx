@@ -13,7 +13,7 @@ import Show from './pages/Show';
 const queryClient = new QueryClient()
 function App() {
   return (
-     <QueryClientProvider client={queryClient}>    
+   <QueryClientProvider client={queryClient}>    
    <BrowserRouter>
    <Routes>
     <Route element={<MainLayout/>}>
